@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --color-pine: #064e3b;
+  --color-pine-deep: #022c22;
+  --color-pine-soft: #065f46;
+  --color-ink: #1e293b;
+  --color-mint: #f0fdf4;
+  --color-line: #d1fae5;
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(980px 460px at -5% -15%, rgba(16, 185, 129, 0.16), transparent 55%),
+    radial-gradient(720px 380px at 110% -10%, rgba(6, 78, 59, 0.06), transparent 48%),
+    #f0fdf4;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6ee7b7 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #6ee7b7;
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background: #a7f3d0;
+  color: #022c22;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
