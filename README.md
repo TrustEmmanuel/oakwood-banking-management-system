@@ -1,6 +1,12 @@
 # Oakwood Finance
 
-Specimen global corporate banking platform for portfolio demonstration. Balances, payments, and credentials live in this browser’s localStorage. No bank is contacted and no payment is sent.
+A specimen multi-currency treasury platform for Oakwood Finance. Authorize single, multiple, and bulk payments, pay bills, and download receipts from a client-side ledger in USD, GBP, and NGN. Nothing leaves the browser, and no payment is sent.
+
+## Screenshots
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+![Transaction history](docs/screenshots/transaction-history.png)
 
 ## Run locally
 
