@@ -29,16 +29,14 @@ export function Login() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,1.08fr)_minmax(400px,0.92fr)]">
-      <section className="relative hidden overflow-hidden bg-pine-deep text-emerald-50 lg:flex lg:flex-col lg:justify-between">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
+      <section className="relative hidden min-h-screen overflow-hidden bg-pine-deep text-emerald-50 lg:block">
+        <img
+          src="/signin-hero.jpg"
+          alt="A customer smiling as she signs in to Oakwood online banking"
+          className="absolute inset-0 h-full w-full object-cover object-[center_18%]"
         />
-        <div className="pointer-events-none absolute -left-24 top-0 h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl" />
-        <div className="relative flex h-full flex-col justify-between px-12 py-10">
+        <div className="absolute inset-0 bg-gradient-to-t from-pine-deep via-pine-deep/80 to-pine-deep/20" />
+        <div className="relative flex h-full min-h-screen flex-col justify-between px-12 py-10">
           <Logo />
           <div className="max-w-xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200/80">Global corporate banking</p>
@@ -70,8 +68,8 @@ export function Login() {
 
       <section className="flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-[440px]">
-          <div className="mb-6 lg:hidden">
-            <Logo variant="onLight" />
+          <div className="mb-6 overflow-hidden rounded-md lg:hidden">
+            <img src="/signin-hero.jpg" alt="A customer smiling as she signs in to Oakwood online banking" className="h-44 w-full object-cover object-[center_20%]" />
           </div>
           <div className="rounded-md border border-emerald-100 bg-white px-6 py-6 shadow-[0_24px_50px_-36px_rgba(6,78,59,0.8)]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-800/60">Mandate sign-in</p>
