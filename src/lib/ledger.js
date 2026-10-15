@@ -590,6 +590,112 @@ export function applyBill(state, input) {
   return { ok: true, state: next, receipt };
 }
 
+export const CARD_FEE = { USD: 3, GBP: 3, NGN: 1500 };
+
+export function applyCardRequest(state, input) {
+  const profile = currentProfile(state);
+  if (!profile) return { ok: false, error: 'Sign in to continue.', state };
+  const currency = input.currency;
+  const fee = CARD_FEE[currency];
+  if (!fee) return { ok: false, error: 'Choose USD, GBP, or NGN.', state };
+  const account = state.accounts.find((item) => item.currency === currency);
+  if (!account) return { ok: false, error: `There is no ${currency} operating account to charge.`, state };
+  const name = String(input.nameOnCard || '').trim().replace(/\s+/g, ' ');
+  if (name.length < 2 || name.length > 26) return { ok: false, error: 'Enter the name on the card, up to 26 characters.', state };
+  if (!/^[A-Za-z][A-Za-z .'-]*$/.test(name)) return { ok: false, error: 'Use letters for the name on the card.', state };
+  const delivery = input.delivery === 'branch' ? 'branch' : 'address';
+  const branchAddress = `${account.bank}, ${account.address}`;
+  const typedAddress = String(input.address || '').trim().replace(/\s+/g, ' ');
+  if (delivery === 'address' && typedAddress.length < 8) {
+    return { ok: false, error: 'Enter the address the card should be sent to.', state };
+  }
+  const deliveryAddress = delivery === 'branch' ? branchAddress : typedAddress;
+  if (moneyLt(account.available, fee)) {
+    return {
+      ok: false,
+      error: `Available balance in ${account.name} is ${formatMoney(account.available, account.currency)}. The debit card fee is ${formatMoney(fee, currency)}.`,
+      state,
+    };
+  }
+  if (input.pin !== profile.pin) {
+    return refuse(state, 'The transaction PIN is incorrect.', 'Authorization failed', `Incorrect transaction PIN for a ${currency} debit card.`);
+  }
+
+  const quote = quotePayment({
+    fromCurrency: currency,
+    toCurrency: currency,
+    paymentAmount: fee,
+    waiveFee: true,
+  });
+  if (!quote.ok) return { ok: false, error: quote.error, state };
+
+  const reference = makeId('OFCD');
+  const last4 = String(Math.floor(1000 + Math.random() * 9000));
+  const card = {
+    id: makeId('CARD'),
+    reference,
+    product: 'Debit',
+    currency,
+    nameOnCard: name.toUpperCase(),
+    last4,
+    accountId: account.id,
+    accountName: account.name,
+    fee,
+    delivery,
+    deliveryAddress,
+    status: 'Active',
+    issuedAt: new Date().toISOString(),
+  };
+  const sentTo = delivery === 'branch' ? `Head office · ${account.address}` : deliveryAddress;
+  const accounts = applyDelta(state.accounts, account.id, -fee);
+  const movements = [];
+  pushMovement(movements, {
+    reference,
+    accountId: account.id,
+    counterparty: 'Oakwood Finance',
+    narrative: `Debit card · ${currency} · •••• ${last4} · ${sentTo}`,
+    type: 'CARD',
+    corridor: corridor(account.region, account.region),
+    currency,
+    amount: -fee,
+    meta: {
+      paymentAmount: fee,
+      paymentCurrency: currency,
+      beneficiaryCredit: 0,
+      fee,
+      feeCurrency: currency,
+      rateText: 'Card issuance',
+      chargeBearer: 'SHA',
+      purpose: 'SERV',
+      valueDate: todayISO(),
+      counterpartyDetail: `${name.toUpperCase()} · •••• ${last4} · ${sentTo}`,
+    },
+  });
+  const receipt = buildReceipt({
+    title: 'Debit card advice',
+    reference,
+    status: 'Settled',
+    account,
+    counterpartyName: 'Oakwood Finance',
+    counterpartyDetail: `${name.toUpperCase()} · •••• ${last4}`,
+    narrative: `Debit card · ${currency} · •••• ${last4} · ${sentTo}`,
+    purpose: 'SERV',
+    quote,
+    valueDate: todayISO(),
+    corridorText: corridor(account.region, account.region),
+  });
+  const next = withAudit({
+    ...state,
+    accounts,
+    cards: [card, ...(state.cards || [])],
+    transactions: [...movements, ...state.transactions],
+  }, {
+    action: 'Debit card issued',
+    detail: `${currency} · •••• ${last4} · ${formatMoney(fee, currency)}`,
+  });
+  return { ok: true, state: next, receipt, card };
+}
+
 export function saveBeneficiary(state, input) {
   const profile = currentProfile(state);
   if (!profile) return { ok: false, error: 'Sign in to continue.', state };

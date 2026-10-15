@@ -104,7 +104,6 @@ export function Dashboard() {
           <SectionTitle
             eyebrow="Ledger"
             title="Recent multi-currency activity"
-            action={<Link to="/statements" className="text-xs font-medium text-pine hover:underline">Full ledger</Link>}
           />
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left">

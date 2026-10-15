@@ -61,6 +61,7 @@ export function Badge({ tone = 'slate', children, title }) {
 }
 
 export function StatusBadge({ status }) {
+  const label = status === 'Settled' ? 'Successful' : status;
   const tone = {
     Settled: 'emerald',
     Successful: 'emerald',
@@ -73,7 +74,7 @@ export function StatusBadge({ status }) {
     Success: 'emerald',
     Refused: 'rose',
   }[status] || 'slate';
-  return <Badge tone={tone}>{status}</Badge>;
+  return <Badge tone={tone}>{label}</Badge>;
 }
 
 export function Card({ className = '', children }) {
@@ -97,7 +98,7 @@ export function MoneyText({ amount, currency, signed = false }) {
   return <span className={`tabular-nums ${positive ? 'font-medium text-emerald-700' : 'text-ink'}`}>{formatMoney(amount, currency, { signed })}</span>;
 }
 
-export function Modal({ open, title, subtitle, onClose, children, wide = false }) {
+export function Modal({ open, title, subtitle, onClose, children, wide = false, rounded = false, blur = false, subtitleClassName = 'mt-0.5 text-xs text-slate-500' }) {
   useEffect(() => {
     if (!open) return undefined;
     function onKey(event) {
@@ -109,18 +110,18 @@ export function Modal({ open, title, subtitle, onClose, children, wide = false }
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-pine-deep/45 px-4 py-8" onMouseDown={onClose}>
+    <div className={`fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-8 ${blur ? 'bg-pine-deep/30 backdrop-blur-md' : 'bg-pine-deep/45'}`} onMouseDown={onClose}>
       <div
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={`w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} rounded-md border border-emerald-100 bg-white shadow-2xl`}
+        className={`w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} ${rounded ? 'overflow-hidden rounded-2xl' : 'rounded-md'} border border-emerald-100 bg-white shadow-2xl`}
         onMouseDown={(event) => event.stopPropagation()}
       >
         <header className="flex items-start justify-between gap-4 border-b border-emerald-100 px-5 py-3.5">
           <div>
             <h2 className="text-sm font-semibold text-pine">{title}</h2>
-            {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
+            {subtitle && <p className={subtitleClassName}>{subtitle}</p>}
           </div>
           <button type="button" onClick={onClose} className="rounded-sm p-1 text-slate-400 hover:bg-emerald-50 hover:text-pine" aria-label="Close">
             <X size={16} />

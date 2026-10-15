@@ -72,7 +72,25 @@ export function PaymentStatus({ outcome, onDone, onDismiss, onSettled }) {
           </div>
         )}
 
-        {success && receipt && (
+        {success && receipt && outcome.kind === 'card' && (
+          <>
+            <h2 id="payment-status-title" className="text-sm font-semibold text-pine">Card Request Successful</h2>
+            <p className="mt-1.5 text-xs leading-relaxed text-slate-500">It will be delivered to {outcome.deliveryAddress}.</p>
+            <dl className="mt-4 divide-y divide-emerald-50 text-xs">
+              <Row label="Reference" value={receipt.reference} />
+              {quote && <Row label="Debit amount" value={formatMoney(quote.totalDebit, quote.debitCurrency)} strong />}
+            </dl>
+            <p className="mt-4 text-xs text-ink">Download or print a receipt for this card?</p>
+            {printError && <p className="mt-2 text-xs text-rose-700">{printError}</p>}
+            <div className="mt-4 flex flex-wrap justify-end gap-2">
+              <Button variant="secondary" onClick={onDone}>Done</Button>
+              <Button variant="secondary" onClick={printReceipt}>Print receipt</Button>
+              <Button onClick={downloadReceipt}>Download receipt</Button>
+            </div>
+          </>
+        )}
+
+        {success && receipt && outcome.kind !== 'card' && (
           <>
             <h2 id="payment-status-title" className="text-sm font-semibold text-pine">Payment successful</h2>
             <p className="mt-1.5 text-xs leading-relaxed text-slate-500">

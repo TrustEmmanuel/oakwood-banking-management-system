@@ -4,6 +4,7 @@ import { useBank } from './context/BankContext';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { Accounts } from './pages/Accounts';
+import { Cards } from './pages/Cards';
 import { AccountDetail } from './pages/AccountDetail';
 import { Transfer } from './pages/Transfer';
 import { MultipleTransfer } from './pages/Multiple';
@@ -41,6 +42,7 @@ export default function App() {
         <Route element={<Shell />}>
           <Route index element={<Dashboard />} />
           <Route path="accounts" element={<Accounts />} />
+          <Route path="cards" element={<Cards />} />
           <Route path="accounts/:accountId" element={<AccountDetail />} />
           <Route path="transfers" element={<Transfer />} />
           <Route path="multiple" element={<MultipleTransfer />} />

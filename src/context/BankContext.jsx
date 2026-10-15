@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { buildSeed, loadState, saveState } from '../data/seed';
 import {
   applyBill,
+  applyCardRequest,
   applyBulk,
   applyForCredit,
   applyTransfer,
@@ -60,6 +61,7 @@ export function BankProvider({ children }) {
     accounts: state.accounts,
     transactions: state.transactions,
     beneficiaries: state.beneficiaries,
+    cards: state.cards || [],
     facilities: state.facilities,
     applications: state.applications,
     audit: state.audit,
@@ -72,6 +74,7 @@ export function BankProvider({ children }) {
     transfer: (input) => commit(applyTransfer(state, input)),
     bulk: (input) => commit(applyBulk(state, input)),
     payBill: (input) => commit(applyBill(state, input)),
+    requestCard: (input) => commit(applyCardRequest(state, input)),
     saveBeneficiary: (input) => commit(saveBeneficiary(state, input), 'Beneficiary saved.'),
     removeBeneficiary: (input) => commit(removeBeneficiary(state, input), 'Beneficiary removed.'),
     updatePassword: (input) => commit(changePassword(state, input), 'Password updated.'),

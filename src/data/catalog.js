@@ -42,6 +42,7 @@ export const TX_TYPES = [
   { id: 'PAYROLL', label: 'Payroll' },
   { id: 'BILL', label: 'Bill payment' },
   { id: 'FEE', label: 'Bank charge' },
+  { id: 'CARD', label: 'Debit card' },
   { id: 'DRAW', label: 'Credit draw' },
   { id: 'REPAY', label: 'Loan repayment' },
 ];

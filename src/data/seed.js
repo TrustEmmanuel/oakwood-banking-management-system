@@ -345,6 +345,7 @@ export function buildSeed(session = null) {
     accounts,
     transactions,
     beneficiaries: buildBeneficiaries(),
+    cards: [],
     facilities: [
       {
         id: 'revolver',
@@ -410,7 +411,11 @@ export function loadState() {
     if (!Array.isArray(parsed.transactions) || !Array.isArray(parsed.beneficiaries)) return null;
     if (!Array.isArray(parsed.facilities) || !Array.isArray(parsed.audit)) return null;
     const refreshed = refreshSpecimenIdentity(parsed);
-    return { ...refreshed, beneficiaries: keepEmmanuel(refreshed.beneficiaries) };
+    return {
+      ...refreshed,
+      beneficiaries: keepEmmanuel(refreshed.beneficiaries),
+      cards: Array.isArray(refreshed.cards) ? refreshed.cards : [],
+    };
   } catch {
     return null;
   }

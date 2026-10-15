@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import {
   ArrowLeftRight,
   History,
+  CreditCard,
   Landmark,
   Layers,
   ListPlus,
@@ -25,6 +26,7 @@ import { convert, formatRate } from '../lib/money';
 const NAV = [
   { label: 'Overview', items: [{ to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true }] },
   { label: 'Accounts', items: [{ to: '/accounts', label: 'Accounts', icon: Landmark }] },
+  { label: 'Services', items: [{ to: '/cards', label: 'Cards', icon: CreditCard }] },
   {
     label: 'Payments',
     items: [
@@ -44,6 +46,7 @@ const NAV = [
 const TITLES = {
   '/': 'Dashboard',
   '/accounts': 'Accounts',
+  '/cards': 'Cards',
   '/transfers': 'Single transfer',
   '/multiple': 'Multiple transfer',
   '/bulk': 'Bulk disbursement',
