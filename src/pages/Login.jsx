@@ -62,7 +62,7 @@ export function Login() {
         <div className="relative mx-auto flex min-h-[520px] max-w-6xl items-center px-4 py-16 sm:min-h-[620px] sm:px-6">
           <div className="max-w-xl text-white">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200">Global corporate banking</p>
-            <h1 className="mt-4 max-w-lg font-serif text-4xl font-medium leading-[1.12] tracking-tight sm:text-5xl">Treasury for a multi-currency group.</h1>
+            <h1 className="mt-4 max-w-lg font-serif text-4xl font-medium leading-[1.12] tracking-tight sm:text-5xl">Multi-Currency Banking Management System</h1>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-emerald-50/90">
               Multi-currency operating accounts for Oakwood Finance. Sign in to move dollars, sterling, and naira from one desk.
             </p>
