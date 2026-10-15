@@ -77,9 +77,9 @@ export function Login() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-800/60">Mandate sign-in</p>
             <h2 className="mt-1 font-serif text-[28px] font-medium text-pine">Sign in</h2>
             <form className="mt-5 space-y-3.5" onSubmit={onSubmit} noValidate>
-              <Field label="Demonstration mandate" hint="Prefills a published specimen user. You can still type the fields yourself.">
+              <Field label="Select role" hint="Prefills a published specimen user. You can still type the fields yourself.">
                 <Select value={preset} onChange={(event) => applyPreset(event.target.value)}>
-                  <option value="">Select a demonstration mandate</option>
+                  <option value="">Choose role</option>
                   <option value="cfo">David Gonzalez — Chief Financial Officer / Global Treasurer</option>
                   <option value="controller">Sarah Smith — Assistant Controller</option>
                 </Select>
